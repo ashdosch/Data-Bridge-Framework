@@ -1,0 +1,210 @@
+vendor_code: Example 1
+file_match:
+- Example1_Data.xlsx
+sheets:
+- sheet_name: DATA
+  header_row: 0
+category:
+  strategy: layered
+  default: lighting
+
+  # 1) If vendor provides a category-like field, use it
+  column_value:
+    columns: ["short_description"]
+    mappings:
+      fans:
+        - "fan"
+        - "ceiling fan"
+        - "ceilingfans"
+        - "hugger fan"
+      lighting:
+        - "lighting"
+        - "light fixture"
+        - "fixture"
+        - "pendant"
+        - "chandelier"
+        - "sconce"
+        - "flush mount"
+        - "semi-flush"
+        - "semi flush"
+        - "outdoor"
+        - "post"
+        - "floor lamp"
+        - "table lamp"
+        - "track"
+        - "recessed"
+        - "vanity"
+      accessories:
+        - "accessory"
+        - "downrod"
+        - "remote"
+        - "control"
+        - "light kit"
+        - "shade"
+        - "glass"
+      home_decor:
+        - "home decor"
+        - "decor"
+        - "wall art"
+
+  # 2) If no usable category column, scan text fields
+  regex_scan:
+    columns: ["short_description", "product_name"]
+    rules:
+      - category_type: fans
+        any_regex:
+          - "(?i)\\bceiling\\s*fan\\b"
+          - "(?i)\\bfan\\b"
+          - "(?i)\\bhugger\\b"
+          - "(?i)\\bblade(s)?\\b"
+          - "(?i)\\bCFM\\b"
+      - category_type: accessories
+        any_regex:
+          - "(?i)\\b(remote|wall\\s*control|receiver|transmitter)\\b"
+          - "(?i)\\b(downrod|coupler|extension\\s*rod)\\b"
+          - "(?i)\\b(accessory|accessories)\\b"
+      - category_type: home_decor
+        any_regex:
+          - "(?i)\\b(vase|clock|shelf|wall\\s*art|decor)\\b"
+      - category_type: furniture
+        any_regex:
+          - "(?i)\\b(chair|clock|shelf|wall\\s*art|decor)\\b"
+
+  # 3) Feature-based detection: look for telltale spec columns
+  feature_presence:
+    rules:
+      - category_type: fans
+        if_any_field_present:
+          - "blade_span"
+          - "blade_count"
+          - "cfm_high"
+          - "high_rpm"
+          - "motor_type"
+      - category_type: lighting
+        if_any_field_present:
+          - "canopy_height"
+          - "canopy_width"
+          - "minimum_height"
+          - "maximum_height"
+
+column_map:
+  core:
+    inventory_partno:
+    - stock_code
+    upc:
+    - upc
+    wholesale_price:
+    - dnprice
+    imap_price:
+    - imap
+    width_in:
+    - fixture_width
+    height_in:
+    - fixture_height
+    length_in:
+    - fixture_length
+    shipping_weight_lb:
+    - shipping_single_weight
+    carton_height_in:
+    - shipping_single_height
+    - shipping_single__height
+    carton_length_in:
+    - shipping_single_length
+    carton_width_in:
+    - shipping_single_width
+    bulb_quantity:
+    - lamp_qty
+    marketing_description:
+    - short_description
+    finish:
+    - fixture_finish
+    subcategory:
+    - short_description
+    shipping_type:
+    - shipping_repack_oversize
+    collection:
+    - family
+    location:
+    - environmental_restriction
+  lighting:
+    certification_type:
+    - certification_and_compliance
+    material:
+    - fixture_material
+    shade:
+    - glass
+    - shade_material
+    voltage:
+    - voltage
+    bulb_socket:
+    - base_type
+    bulb_included:
+    - lamps_supplied
+    bulb_watts:
+    - lamp_wattage
+    kelvin:
+    - kelvin
+    - cct
+    bulb_dimmable:
+    - fixturedimmable
+    - dimming
+    lumens:
+    - total_nom_lumens
+    canopy_height_in:
+    - canopy_height
+    canopy_length_in:
+    - canopy_length
+    canopy_width_in:
+    - canopy_width
+  accessories: {}
+  home_decor: {}
+conversions:
+  money:
+  - wholesale_price
+  - imap_price
+  bool:
+  - is_imap
+  - bulb_included
+  - bulb_dimmable
+  - energy_star
+  - ada
+  - light_kit_included
+  - is_flush_mount
+  int:
+  - bulb_quantity
+  - kelvin
+  - cri
+  - lumens
+  - blade_count
+  - cfm_average
+  - cfm_high
+  - low_rpm
+  - high_rpm
+  - light_kit_kelvin
+  - light_kit_lumens
+  decimals:
+  - width_in
+  - height_in
+  - length_in
+  - weight_lb
+  - shipping_weight_lb
+  - carton_height_in
+  - carton_length_in
+  - carton_width_in
+  - canopy_height_in
+  - canopy_length_in
+  - canopy_width_in
+  - canopy_depth_in
+  - minimum_height_in
+  - maximum_height_in
+  - blade_span_in
+  - blade_pitch
+  - cfm_average_watts
+  - cfm_high_watts
+  - motor_watts
+  - max_angle
+  - bulb_watts
+  - light_kit_watts
+  - diameter_in
+defaults:
+  currency_code: USD

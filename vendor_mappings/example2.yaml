@@ -1,0 +1,197 @@
+vendor_code: Example 2
+file_match:
+- Example2_Data.xlsx
+sheets:
+- sheet_name: 'Example 2 SKUs '
+  header_row: 0
+- sheet_name: Sheet1
+  header_row: 0
+- sheet_name: DISCONTINUED (NO STOCK LEFT)
+  header_row: 1
+category:
+  strategy: layered
+  default: lighting
+
+  # 1) If vendor provides a category-like field, use it
+  column_value:
+    columns: ["category", "subcategory"]
+    mappings:
+      fans:
+        - "fan"
+        - "ceiling fan"
+        - "ceilingfans"
+        - "hugger fan"
+      lighting:
+        - "lighting"
+        - "light fixture"
+        - "fixture"
+        - "pendant"
+        - "chandelier"
+        - "sconce"
+        - "flush mount"
+        - "semi-flush"
+        - "semi flush"
+        - "outdoor"
+        - "post"
+        - "floor lamp"
+        - "table lamp"
+        - "track"
+        - "recessed"
+      accessories:
+        - "accessory"
+        - "downrod"
+        - "remote"
+        - "control"
+        - "light kit"
+        - "shade"
+        - "glass"
+      home_decor:
+        - "home decor"
+        - "decor"
+        - "wall art"
+
+  # 2) If no usable category column, scan text fields
+  regex_scan:
+    columns: ["product_title", "item_description"]
+    rules:
+      - category_type: fans
+        any_regex:
+          - "(?i)\\bceiling\\s*fan\\b"
+          - "(?i)\\bfan\\b"
+          - "(?i)\\bhugger\\b"
+          - "(?i)\\bblade(s)?\\b"
+          - "(?i)\\bCFM\\b"
+      - category_type: accessories
+        any_regex:
+          - "(?i)\\b(remote|wall\\s*control|receiver|transmitter)\\b"
+          - "(?i)\\b(downrod|coupler|extension\\s*rod)\\b"
+          - "(?i)\\b(accessory|accessories)\\b"
+      - category_type: home_decor
+        any_regex:
+          - "(?i)\\b(vase|clock|shelf|wall\\s*art|decor)\\b"
+
+  # 3) Feature-based detection: look for telltale spec columns
+  feature_presence:
+    rules:
+      - category_type: fans
+        if_any_field_present:
+          - "blade_span"
+          - "blade_count"
+          - "cfm_high"
+          - "high_rpm"
+          - "motor_type"
+      - category_type: lighting
+        if_any_field_present:
+          - "canopy_height"
+          - "canopy_width"
+          - "minimum_height"
+          - "maximum_height"
+column_map:
+  core:
+    inventory_partno:
+    - sku
+    upc:
+    - upc
+    width_in:
+    - prod_widthinches
+    height_in:
+    - body_height_inches
+    length_in:
+    - prod_length_inches
+    shipping_weight_lb:
+    - shipping_weightlbs
+    bulb_quantity:
+    - bulb_socket_qty
+    finish:
+    - finish
+    subcategory:
+    - category
+    - subcategory
+    shipping_type:
+    - freight_class
+    collection:
+    - collection_name
+  lighting:
+    material:
+    - fixture_material
+    style:
+    - style
+    shade:
+    - shade_color
+    voltage:
+    - voltage
+    bulb_included:
+    - bulb_included
+    bulb_watts:
+    - bulb_wattage
+    bulb_shape:
+    - bulb_shape
+    cri:
+    - cri_led
+    bulb_dimmable:
+    - dimmable
+    lumens:
+    - lumens_led
+    canopy_height_in:
+    - canopy_or_back_plate_height_inches
+    canopy_length_in:
+    - canopy_or_back_plate_length_inches
+    canopy_width_in:
+    - canopy_or_back_plate_depth_inches
+  fans:
+    warranty:
+    - warranty
+    style:
+    - style
+  accessories: {}
+  home_decor: {}
+conversions:
+  money:
+  - wholesale_price
+  - imap_price
+  bool:
+  - is_imap
+  - bulb_included
+  - bulb_dimmable
+  - energy_star
+  - ada
+  - light_kit_included
+  - is_flush_mount
+  int:
+  - bulb_quantity
+  - kelvin
+  - cri
+  - lumens
+  - blade_count
+  - cfm_average
+  - cfm_high
+  - low_rpm
+  - high_rpm
+  - light_kit_kelvin
+  - light_kit_lumens
+  decimals:
+  - width_in
+  - height_in
+  - length_in
+  - weight_lb
+  - shipping_weight_lb
+  - carton_height_in
+  - carton_length_in
+  - carton_width_in
+  - canopy_height_in
+  - canopy_length_in
+  - canopy_width_in
+  - canopy_depth_in
+  - minimum_height_in
+  - maximum_height_in
+  - blade_span_in
+  - blade_pitch
+  - cfm_average_watts
+  - cfm_high_watts
+  - motor_watts
+  - max_angle
+  - bulb_watts
+  - light_kit_watts
+  - diameter_in
+defaults:
+  currency_code: USD

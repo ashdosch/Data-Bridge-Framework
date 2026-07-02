@@ -1,0 +1,270 @@
+vendors:
+- vendor_code: Example 1
+  file_match:
+  - Example1_Data_2026.xlsx
+  sheets:
+  - sheet_name: DATA
+    header_row: 0
+  category:
+    strategy: rules
+    rules:
+    - if_any_field_present:
+      - bulb_base
+      - base_type
+      - lamp_qty
+      - kelvin
+      - cct
+      - lumens
+      category_type: light_bulbs
+    - default: lighting
+  column_map:
+    core:
+      inventory_partno:
+      - stock_code
+      upc:
+      - upc
+      wholesale_price:
+      - dnprice
+      imap_price:
+      - imap
+      width_in:
+      - fixture_width
+      height_in:
+      - fixture_height
+      length_in:
+      - fixture_length
+      shipping_weight_lb:
+      - shipping_single_weight
+      carton_height_in:
+      - shipping_single_height
+      carton_length_in:
+      - shipping_single_length
+      carton_width_in:
+      - shipping_single_width
+      bulb_quantity:
+      - lamp_qty
+      marketing_description:
+      - short_description
+      finish:
+      - fixture_finish
+      subcategory:
+      - categories
+      shipping_type:
+      - ups_or_fedex
+      collection:
+      - family
+      location:
+      - restricted_location
+    lighting:
+      certification_type:
+      - certification_and_compliance
+      material:
+      - fixture_material
+      shade:
+      - glass
+      - shade_material
+      voltage:
+      - voltage
+      bulb_socket:
+      - base_type
+      bulb_included:
+      - lamps_supplied
+      bulb_watts:
+      - lamp_wattage
+      kelvin:
+      - kelvin
+      - cct
+      bulb_dimmable:
+      - fixturedimmable
+      - dimming
+      lumens:
+      - total_nom_lumens
+      canopy_height_in:
+      - canopy_height
+      canopy_length_in:
+      - canopy_length
+      canopy_width_in:
+      - canopy_width
+    accessories: {}
+    home_decor: {}
+  conversions:
+    money:
+    - wholesale_price
+    - imap_price
+    bool:
+    - is_imap
+    - bulb_included
+    - bulb_dimmable
+    - energy_star
+    - ada
+    - light_kit_included
+    - is_flush_mount
+    int:
+    - bulb_quantity
+    - kelvin
+    - cri
+    - lumens
+    - blade_count
+    - cfm_average
+    - cfm_high
+    - low_rpm
+    - high_rpm
+    - light_kit_kelvin
+    - light_kit_lumens
+    decimals:
+    - width_in
+    - height_in
+    - length_in
+    - weight_lb
+    - shipping_weight_lb
+    - carton_height_in
+    - carton_length_in
+    - carton_width_in
+    - canopy_height_in
+    - canopy_length_in
+    - canopy_width_in
+    - canopy_depth_in
+    - minimum_height_in
+    - maximum_height_in
+    - blade_span_in
+    - blade_pitch
+    - cfm_average_watts
+    - cfm_high_watts
+    - motor_watts
+    - max_angle
+    - bulb_watts
+    - light_kit_watts
+    - diameter_in
+  defaults:
+    currency_code: USD
+- vendor_code: Example 2
+  file_match:
+  - Example2_Data_2026.xlsx
+  sheets:
+  - sheet_name: 'Example 1 SKUs '
+    header_row: 0
+  - sheet_name: Sheet1
+    header_row: 0
+  - sheet_name: DISCONTINUED (NO STOCK LEFT)
+    header_row: 1
+  category:
+    strategy: rules
+    rules:
+    - if_any_field_present:
+      - bulb_base
+      - base_type
+      - lamp_qty
+      - kelvin
+      - cct
+      - lumens
+      category_type: light_bulbs
+    - default: lighting
+  column_map:
+    core:
+      inventory_partno:
+      - sku
+      upc:
+      - upc
+      width_in:
+      - prod_widthinches
+      height_in:
+      - body_height_inches
+      length_in:
+      - prod_length_inches
+      shipping_weight_lb:
+      - shipping_weightlbs
+      bulb_quantity:
+      - bulb_socket_qty
+      finish:
+      - finish
+      subcategory:
+      - subcategory
+      - category
+      shipping_type:
+      - freight_class
+      collection:
+      - collection_name
+    lighting:
+      material:
+      - fixture_material
+      style:
+      - style
+      shade:
+      - shade_color
+      voltage:
+      - voltage
+      bulb_included:
+      - bulb_included
+      bulb_watts:
+      - bulb_wattage
+      bulb_shape:
+      - bulb_shape
+      cri:
+      - cri_led
+      bulb_dimmable:
+      - dimmable
+      lumens:
+      - lumens_led
+      canopy_height_in:
+      - canopy_or_back_plate_height_inches
+      canopy_length_in:
+      - canopy_or_back_plate_length_inches
+      canopy_width_in:
+      - canopy_or_back_plate_depth_inches
+    fans:
+      warranty:
+      - warranty
+      style:
+      - style
+    accessories: {}
+    home_decor: {}
+  conversions:
+    money:
+    - wholesale_price
+    - imap_price
+    bool:
+    - is_imap
+    - bulb_included
+    - bulb_dimmable
+    - energy_star
+    - ada
+    - light_kit_included
+    - is_flush_mount
+    int:
+    - bulb_quantity
+    - kelvin
+    - cri
+    - lumens
+    - blade_count
+    - cfm_average
+    - cfm_high
+    - low_rpm
+    - high_rpm
+    - light_kit_kelvin
+    - light_kit_lumens
+    decimals:
+    - width_in
+    - height_in
+    - length_in
+    - weight_lb
+    - shipping_weight_lb
+    - carton_height_in
+    - carton_length_in
+    - carton_width_in
+    - canopy_height_in
+    - canopy_length_in
+    - canopy_width_in
+    - canopy_depth_in
+    - minimum_height_in
+    - maximum_height_in
+    - blade_span_in
+    - blade_pitch
+    - cfm_average_watts
+    - cfm_high_watts
+    - motor_watts
+    - max_angle
+    - bulb_watts
+    - light_kit_watts
+    - diameter_in
+  defaults:
+    currency_code: USD
